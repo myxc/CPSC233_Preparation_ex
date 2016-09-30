@@ -26,7 +26,7 @@ public class GuessingGame {
 
 				}
 				else
-					System.out.println("Invalid!");
+					System.out.println("Invalid guess. The number is between 0 and 9 (inclusive).");
 			}
 			else
 				System.out.println("Invalid!");
