@@ -29,7 +29,7 @@ public class GuessingGame {
 					System.out.println("Invalid guess. The number is between 0 and 9 (inclusive).");
 			}
 			else
-				System.out.println("Invalid!");
+				System.out.println("Invalid please enter a number not a letter.");
 		} 
 		if (user_guess == randomNumber)
 			System.out.println("Correct!");
