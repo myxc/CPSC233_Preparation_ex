@@ -131,4 +131,28 @@ public class Bank{
         else return false;
     }
 
+    /**
+     * method transfers from one bank account to another for a specified double amount
+     * @param int bank to withdraw money from
+     * @param int bank to deposit money into
+     * @param double amount to transfer
+     * @return bol to indicated whether transfer succeeded.
+    */
+    public boolean transfer(int fromBank, int toBank, double transAmount)
+    {
+        boolean bool1;
+        boolean bool2;
+        if ((getAccount(fromBank).getBalance() - transAmount) >= 0 && getAccount(fromBank) != null && getAccount(toBank) != null)
+        {
+            bool1 = getAccount(fromBank).withdraw(transAmount);
+            bool2 = getAccount(toBank).deposit(transAmount);
+        }
+        else 
+        {
+            bool1 = false;
+            bool2 = true;
+        }
+        return bool1 && bool2;
+    }
+// no privacy leak because all methods use pass by value. 
 }

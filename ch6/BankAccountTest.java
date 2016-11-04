@@ -161,18 +161,48 @@ public class BankAccountTest {
         return Math.abs(b.getBalance() - 0.0) < 0.00001;
     }
     
-    // public static boolean test16() {
-    //     System.out.println("Test16: Balance of 50.00, withdraw sequence: 0.50, 5.10, 20.00. Result balance should be 24.40.");
-    //     BankAccount b = new BankAccount(50.00);
-    //     accountCounter++;
-    //     if (!b.withdraw(.5))
-    //         return false;
-    //     if (!b.withdraw(5.1))
-    //         return false;
-    //     if (!b.withdraw(20.0))
-    //         return false;
-    //     return Math.abs(b.getBalance() - 24.4) < 0.00001;
-    // }
+    public static boolean test16() {
+        System.out.println("Test16: Balance of 50.00, withdraw sequence: 0.50, 5.10, 20.00. Result balance should be 24.40.");
+        BankAccount b = new BankAccount(50.00);
+        accountCounter++;
+        if (!b.withdraw(.5))
+            return false;
+        if (!b.withdraw(5.1))
+            return false;
+        if (!b.withdraw(20.0))
+            return false;
+        return Math.abs(b.getBalance() - 24.4) < 0.00001;
+    }
+    
+    public static boolean test17() {
+        System.out.println("Test17: Balance of acct1:50.00, acct2: 546.21, transfer 15.45 from 1 to 2. Result balances should be 34.45, 561.66.");
+        BankAccount b1 = new BankAccount(50.00);
+        BankAccount b2 = new BankAccount(546.21);
+        accountCounter+=2;
+        if (!b1.transfer(15.45,b2))
+            return false;
+        return Math.abs(b1.getBalance() - 34.55) < 0.00001 && Math.abs(b2.getBalance() - 561.66) < 0.00001;
+    }
+    
+    public static boolean test18() {
+        System.out.println("Test18: Balance of acct1:50.00, acct2: 546.21, transfer 50 from 1 to 2. Result balances should be 0.0, 596.21.");
+        BankAccount b1 = new BankAccount(50.00);
+        BankAccount b2 = new BankAccount(546.21);
+        accountCounter+=2;
+        if (!b1.transfer(50.00,b2))
+            return false;
+        return Math.abs(b1.getBalance() - 0.0) < 0.00001 && Math.abs(b2.getBalance() - 596.21) < 0.00001;
+    }
+    
+    public static boolean test19() {
+        System.out.println("Test19: Balance of acct1:50.00, acct2: 546.21, transfer 51.0 from 1 to 2. Balances should be unchanged.");
+        BankAccount b1 = new BankAccount(50.00);
+        BankAccount b2 = new BankAccount(546.21);
+        accountCounter+=2;
+        if (b1.transfer(51.00,b2))
+            return false;
+        return Math.abs(b1.getBalance() - 50.0) < 0.00001 && Math.abs(b2.getBalance() - 546.21) < 0.00001;
+    }
     
     public static void main(String[] args) {
         String result = "";
@@ -236,8 +266,21 @@ public class BankAccountTest {
         result = test15() ? "pass." : "failed.";
         System.out.println(result);
 
-        // //System.out.print("Test 16: ");
-        // result = test16() ? "pass." : "failed.";
-        // System.out.println(result);
+        //System.out.print("Test 16: ");
+        result = test16() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 17: ");
+        result = test17() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 18: ");
+        result = test18() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 19: ");
+        result = test19() ? "pass." : "failed.";
+        System.out.println(result);
+
     }
 }

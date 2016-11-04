@@ -128,4 +128,25 @@ public class BankAccount {
         else
             return false;
     }
+
+    /**
+     * method withdraws from account calling method and deposits into the account specified in argument.
+     * @param double amount to transfer
+     * @param BankAccount to transfer the money to
+     * @return bool to indicate if transfer succeeded
+    */
+    public boolean transfer(double amount, BankAccount accToTransTo)
+    {
+        if ((balance - amount) >= 0)
+        {
+            boolean bool1 = withdraw(amount);
+            boolean bool2 = accToTransTo.deposit(amount);
+            return bool1 && bool2;
+        }
+        else
+            return false;
+    }
+// There are no security leaks because everything is private and all methods pass by value rather than reference, 
+    //only potential security leak is with a copied account using copy constructor which does pass by reference
+
 }

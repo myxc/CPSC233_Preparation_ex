@@ -123,6 +123,40 @@ public class BankTest {
                   && Math.abs(b3.getBalance() - 15.5) < 0.00001 && Math.abs(b4.getBalance() - 20.5) < 0.00001;
     }
 
+    
+    public static boolean test7() {
+        System.out.println("Test7: Transfer momeny.  Should fail because one of the account does not exist.");
+        Bank b = new Bank();
+        if (!b.addAccount(new BankAccount(45.50)))
+            return false;
+        if (!b.addAccount(new BankAccount(100.00)))
+            return false;
+        return !b.transfer(20, 22, 5.0);
+    }
+
+    public static boolean test8() {
+        System.out.println("Test7: Transfer momeny.  Should fail because there is no sufficient fund in the from account.");
+        Bank b = new Bank();
+        if (!b.addAccount(new BankAccount(45.50)))
+            return false;
+        if (!b.addAccount(new BankAccount(100.00)))
+            return false;
+        return !b.transfer(22, 23, 50.0) && Math.abs(b.getAccount(22).getBalance() - 45.50) < 0.00001
+              && Math.abs(b.getAccount(23).getBalance() - 100.00) < 0.00001;
+    }
+
+    public static boolean test9() {
+        System.out.println("Test8: Transfer momeny.  Should success with new balances (40.50, 105.00).");
+        Bank b = new Bank();
+        if (!b.addAccount(new BankAccount(45.50)))
+            return false;
+        if (!b.addAccount(new BankAccount(100.00)))
+            return false;
+        return b.transfer(24, 25, 5.0) && Math.abs(b.getAccount(24).getBalance() - 40.50) < 0.00001
+              && Math.abs(b.getAccount(25).getBalance() - 105.00) < 0.00001;
+    }
+
+
     public static void main(String[] args) {
         String result = "";
         //System.out.print("Test 1: ");
@@ -147,6 +181,18 @@ public class BankTest {
 
         //System.out.print("Test 6: ");
         result = test6() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 7: ");
+        result = test7() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 8: ");
+        result = test8() ? "pass." : "failed.";
+        System.out.println(result);
+
+        //System.out.print("Test 9: ");
+        result = test9() ? "pass." : "failed.";
         System.out.println(result);
 
     }
