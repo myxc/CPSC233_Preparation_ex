@@ -41,5 +41,8 @@ public class GradesTest {
 
         System.out.println("Test 4 (get the highest grade): ");
         test4();
+
+        double[] cutoffs = {50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
+        grades.groupGradesIntoRanges(cutoffs);
     }
 }
