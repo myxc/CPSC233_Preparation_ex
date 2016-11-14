@@ -34,7 +34,7 @@ public class SavingsAccount extends BankAccount {
      */
     public SavingsAccount(double startBalance, double rate) {
         super(startBalance);
-        this.interestRate = rate;
+        setInterestRate(rate);
     }
 
     /**
@@ -45,7 +45,7 @@ public class SavingsAccount extends BankAccount {
     */
     public SavingsAccount(double startBalance, double rate, double minBalance) {
         this(startBalance, rate);
-        this.minimumBalance = minBalance;
+        setMinimumBalance(minBalance);
     }
 
     /**
@@ -56,7 +56,7 @@ public class SavingsAccount extends BankAccount {
         if (rate <= 1.0 && 0 <= rate)
             {this.interestRate = rate;}
         else
-            System.out.println("The interest rate must be a value between 0.0 and 1.0.");
+            interestRate = 0;
     }
 
     /**
@@ -76,6 +76,8 @@ public class SavingsAccount extends BankAccount {
         {
             this.minimumBalance = minBal;
         }
+        else
+            minimumBalance = 0;
     }
 
     /**
@@ -92,6 +94,39 @@ public class SavingsAccount extends BankAccount {
     public void addInterest() {
         double interestAmount = getBalance() * getInterestRate();
         deposit(interestAmount);
+    }
+
+    public SavingsAccount(SavingsAccount accToCopy)
+    {
+        super(accToCopy);
+        setInterestRate(accToCopy.getInterestRate());
+        setMinimumBalance(accToCopy.getMinimumBalance());
+    }
+
+    public boolean withdraw(double withdrawAmount)
+    {
+        if (getBalance() - withdrawAmount < minimumBalance)
+        {
+            return false;
+        }
+        else
+        {
+            super.withdraw(withdrawAmount);
+            return true;
+        }
+    }
+
+    public boolean transfer(double transferAmount, BankAccount accountToTransfer)
+    {
+        if (getBalance() - transferAmount < minimumBalance)
+        {
+            return false;
+        }
+        else
+        {
+            super.transfer(transferAmount, accountToTransfer);
+            return true;
+        }
     }
 
     
