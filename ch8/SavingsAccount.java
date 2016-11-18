@@ -34,100 +34,104 @@ public class SavingsAccount extends BankAccount {
      */
     public SavingsAccount(double startBalance, double rate) {
         super(startBalance);
-        setInterestRate(rate);
+        this.interestRate = rate;
     }
-
+    
     /**
-     * Creates savings account with starting balance, interest rate and min balance as args
-     * @param startBalance initial balance of new account
-     * @param rate inerest rate for the account
-     * @param minBalance the minimum balance of the account
-    */
-    public SavingsAccount(double startBalance, double rate, double minBalance) {
-        this(startBalance, rate);
-        setMinimumBalance(minBalance);
+     * Creates a savings account with the specified starting balance and
+     * interest rate.
+     * @param startBalance the initial balance of the account we're creating.
+     * @param rate the interest rate for the savings account we're creating.
+     * @param min The minimum balance.
+     */
+    public SavingsAccount(double startBalance, double rate, double min) {
+        super(startBalance);
+        this.interestRate = rate;
+        this.minimumBalance = min;
     }
-
+    
     /**
-     * Sets interestRate to specified rate
-     * @param rate rate to set interestRate variable
-    */
+     * Copy constructor which creates a copy of the specified account.
+     * @param account the savings account to create a copy off.
+     */
+    public SavingsAccount(SavingsAccount account) {
+        super(account);
+        interestRate = account.interestRate;
+        this.minimumBalance = account.minimumBalance;
+    }
+ 
+    /**
+     * Change the interest for this account to the specified rate.
+     * @param rate the interest rate that should be used for this account.
+     */
     public void setInterestRate(double rate) {
-        if (rate <= 1.0 && 0 <= rate)
-            {this.interestRate = rate;}
-        else
-            interestRate = 0;
-    }
-
-    /**
-     * Returns interestRate variable
-     * @return interestRate variable
-    */
-    public double getInterestRate() {
-        return this.interestRate;
-    }
-
-    /**
-     * sets minimumbalance variable to specified value
-     * @param minBal the new value for the minimum balance
-    */
-    public void setMinimumBalance(double minBal) {
-        if (minBal > 0)
-        {
-            this.minimumBalance = minBal;
+        if (rate >= 0.0 && rate <= 1.0) {
+            interestRate = rate;
         }
         else
-            minimumBalance = 0;
+            interestRate = 0.0;
     }
 
+    /** Get the interest rate.
+     * @return The interest rate
+     */
+    public double getInterestRate() {
+        return interestRate;
+    }
+  
     /**
-     * returns minimum balance variable
-     * @return minimumBalance variable as a double value
-    */
+     * Change the interest for this account to the specified rate.
+     * @param rate the interest rate that should be used for this account.
+     */
+    public void setMinimumBalance(double min) {
+        if (min >= 0.0) {
+            minimumBalance = min;
+        }
+        else
+            minimumBalance = 0.0;
+    }
+
+    /** Get the minimum balance.
+     * @return The minimum balance
+     */
     public double getMinimumBalance() {
         return minimumBalance;
     }
 
     /**
-     * computes interest based on account balance, deposits interest into the account.
-    */
-    public void addInterest() {
-        double interestAmount = getBalance() * getInterestRate();
-        deposit(interestAmount);
-    }
-
-    public SavingsAccount(SavingsAccount accToCopy)
+     * Compute the interest and add it to this account.
+     */
+    public double getFeesAndInterest()
     {
-        super(accToCopy);
-        setInterestRate(accToCopy.getInterestRate());
-        setMinimumBalance(accToCopy.getMinimumBalance());
+        double interest = getBalance() * interestRate;
+        return interest;
     }
-
-    public boolean withdraw(double withdrawAmount)
-    {
-        if (getBalance() - withdrawAmount < minimumBalance)
-        {
-            return false;
-        }
-        else
-        {
-            super.withdraw(withdrawAmount);
-            return true;
-        }
-    }
-
-    public boolean transfer(double transferAmount, BankAccount accountToTransfer)
-    {
-        if (getBalance() - transferAmount < minimumBalance)
-        {
-            return false;
-        }
-        else
-        {
-            super.transfer(transferAmount, accountToTransfer);
-            return true;
-        }
-    }
-
     
+    /** Override the method withdraw() in BankAccount.  If the withdraw would
+     * result in a balance less than the minimumBalance, do nothing.  
+     * Otherwise execute the withdraw in the parent class.
+     * @param amount The amount to withdraw
+     * @return Whether the withdraw was succssful.
+     */
+    public boolean withdraw(double amount) {
+        if (getBalance() - amount >= minimumBalance) {
+            return super.withdraw(amount);
+        }
+        else
+            return false;
+    }
+
+    /** In this method, funds are only transferred if the resulting balance
+     *  of the account will not go below the minimum balance. 
+     * @param amount The ammount to transfer.
+     * @param toAccount  The account to transfer the money to.
+     * @return Whether the transfer was succssful.
+     */
+    public boolean transfer(double amount, BankAccount toAccount) {
+        if (getBalance() - amount >= minimumBalance) {
+            return super.transfer(amount, toAccount);
+        }
+        else
+            return false;
+    }
 }

@@ -7,7 +7,7 @@
  * Copyright (c) 2016. All rights reserved.
  */
 
-public class BankAccount {
+abstract class BankAccount {
     /** Counter that keeps track of the number of accounts created.  Used
      * to assign account numbers to new accounts.
      */
@@ -122,5 +122,12 @@ public class BankAccount {
      */
     public boolean equals(BankAccount other) {
         return accountNumber == other.accountNumber;
+    }
+    
+    protected abstract double getFeesAndInterest();
+
+    public void applyFeesAndInterest()
+    {
+        deposit(getFeesAndInterest());
     }
 }
